@@ -1,0 +1,3 @@
+#!/bin/bash
+coverage run --source=jen -m unittest
+coverage report -m
