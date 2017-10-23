@@ -1,3 +1,4 @@
+import mimetypes
 import os.path
 
 from gunicorn.app.base import BaseApplication
@@ -50,11 +51,15 @@ class App(object):
         if not full_path.endswith('.html') and os.path.exists(full_path) and not os.path.isdir(full_path):
             with open(full_path, 'rb') as f:
                 body = f.read()
-            return self.response(start_response, '200 OK', 'application/octet-stream', body)
+            return self.response(start_response, '200 OK', self.guess_mime(full_path), body)
         if '.' not in path and self.template_renderer.has_page('404'):
             body = self.template_renderer.render_page('404')
             return self.response(start_response, '404 Not Found', 'text/html', body)
         return self.response(start_response, '404 Not Found')
+
+    def guess_mime(self, path):
+        mime, _ = mimetypes.guess_type(path)
+        return mime or 'application/octet-stream'
 
     def response(self, start_response, status, mime='text/html', data=''):
         if isinstance(data, str):

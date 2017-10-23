@@ -60,8 +60,18 @@ class ServerAppTestCase(TestCase):
         body = self.app.handle_request(env, start_response)
         self.assertEqual(b''.join(body), b'User-agent: *\nDisallow: /\n')
         start_response.assert_called_once_with('200 OK', [
-            ('Content-Type', 'application/octet-stream'),
+            ('Content-Type', 'text/plain'),
             ('Content-Length', '26'),
+        ])
+
+    def test_server_can_guess_the_mime_type_of_the_served_static_content(self):
+        env = {'PATH_INFO': '/theme.css'}
+        start_response = Mock()
+        body = self.app.handle_request(env, start_response)
+        self.assertEqual(b''.join(body), b'body { background-color: black; }\n')
+        start_response.assert_called_once_with('200 OK', [
+            ('Content-Type', 'text/css'),
+            ('Content-Length', '34'),
         ])
 
     def test_static_content_try_does_not_fail_when_target_is_directory(self):
