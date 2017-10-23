@@ -13,6 +13,8 @@ class Server(CliCommand):
     description = 'Serves content from specified <source> directory'
 
     def run(self, source):
+        if not os.path.isdir(source):
+            self.abort('ERROR:', 'source must be a valid directory')
         server = GunicornApp(source)
         server.run()
 

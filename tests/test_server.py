@@ -1,7 +1,32 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import patch, Mock
 
-from jen.server import App
+from jen.server import Server, App
+from .test_cli import CliTestCase
+from .output_buffer import OutputBuffer
+
+
+class ServerCommandTestCase(CliTestCase):
+
+    def setUp(self):
+        self.command = Server()
+        self.patch = patch('jen.server.GunicornApp.run')
+        self.patch.start()
+
+    def tearDown(self):
+        self.patch.stop()
+
+    def test_command_aborts_if_source_is_not_found(self):
+        with OutputBuffer() as bf:
+            with self.assertRaises(SystemExit):
+                self.command.run('foobar')
+        self.assert_output(bf.out, 'ERROR: source must be a valid directory')
+
+    def test_command_aborts_if_source_is_not_directory(self):
+        with OutputBuffer() as bf:
+            with self.assertRaises(SystemExit):
+                self.command.run('tests/site_example/index.html')
+        self.assert_output(bf.out, 'ERROR: source must be a valid directory')
 
 
 class ServerAppTestCase(TestCase):
