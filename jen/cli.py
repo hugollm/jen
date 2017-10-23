@@ -54,7 +54,7 @@ class CliApp(object):
     def print_help(self):
         self.echo('Commands:')
         self.echo()
-        space_padding = max([len(command.usage) for command in self.commands]) + 4
+        space_padding = max([len(command.usage) for command in self.commands]) + 2
         for command in self.commands:
             spaces = space_padding - len(command.usage)
             self.echo(command.usage, ' ' * spaces, command.description)
