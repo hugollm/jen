@@ -28,6 +28,9 @@ class HasPageTestCase(TemplateRendererTestCase):
     def test_missing_page(self):
         self.assertEqual(self.renderer.has_page('/missing'), False)
 
+    def test_ignore_pages_that_starts_with_underscore(self):
+        self.assertEqual(self.renderer.has_page('/_base'), False)
+
 
 class TemplatesForPathTestCase(TemplateRendererTestCase):
 
@@ -46,6 +49,10 @@ class TemplatesForPathTestCase(TemplateRendererTestCase):
     def test_subdirectory_index_path(self):
         templates = self.renderer._templates_for_path('/about')
         self.assertEqual(templates, ['about.html', 'about/index.html'])
+
+    def test_path_with_last_part_ending_in_underscore(self):
+        templates = self.renderer._templates_for_path('/_base')
+        self.assertEqual(templates, [])
 
 
 class RenderPageTestCase(TemplateRendererTestCase):
@@ -69,3 +76,7 @@ class RenderPageTestCase(TemplateRendererTestCase):
     def test_render_subdirectory_index_with_path_ending_on_slash(self):
         rendered = self.renderer.render_page('/sub-with-index/')
         self.assertEqual(rendered, '<body><h1>Sub/Index</h1></body>')
+
+    def test_ignore_pages_that_starts_with_underscore(self):
+        rendered = self.renderer.render_page('/_base')
+        self.assertEqual(rendered, None)

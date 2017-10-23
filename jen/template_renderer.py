@@ -28,6 +28,9 @@ class TemplateRenderer(object):
 
     def _templates_for_path(self, path):
         path = path.strip('/')
+        last_bit = path.split('/')[-1]
+        if last_bit.startswith('_'):
+            return []
         if not path:
             return ['index.html']
         return [path + '.html', path + '/index.html']
