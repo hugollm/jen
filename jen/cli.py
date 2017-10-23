@@ -65,6 +65,7 @@ class CliApp(object):
     def abort(self, *args):
         if args:
             self.printer.echo(*args)
+        self.printer.final_echo()
         sys.exit(1)
 
 
@@ -91,4 +92,5 @@ class CliCommand(object):
     def abort(self, *args):
         if args:
             self.printer.echo(*args)
+        self.printer.final_echo()
         sys.exit(1)
