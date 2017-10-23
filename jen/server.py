@@ -45,7 +45,7 @@ class App(object):
             body = self.template_renderer.render_page(path)
             return self.response(start_response, '200 OK', 'text/html', body)
         full_path = os.path.join(self.directory, path.strip('/'))
-        if not path.endswith('.html') and os.path.exists(full_path):
+        if not full_path.endswith('.html') and os.path.exists(full_path) and not os.path.isdir(full_path):
             with open(full_path, 'rb') as f:
                 body = f.read()
             return self.response(start_response, '200 OK', 'application/octet-stream', body)

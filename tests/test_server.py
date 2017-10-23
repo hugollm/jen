@@ -39,6 +39,17 @@ class ServerAppTestCase(TestCase):
             ('Content-Length', '26'),
         ])
 
+    def test_static_content_try_does_not_fail_when_target_is_directory(self):
+        app = App('tests/site_example/sub-without-index')
+        env = {'PATH_INFO': '/'}
+        start_response = Mock()
+        body = app.handle_request(env, start_response)
+        self.assertEqual(b''.join(body), b'')
+        start_response.assert_called_once_with('404 Not Found', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '0'),
+        ])
+
     def test_404_page(self):
         app = App('tests/site_example/sub-with-404')
         env = {'PATH_INFO': '/missing'}
