@@ -37,7 +37,7 @@ class ServerAppTestCase(TestCase):
     def test_get_simple_page(self):
         env = {'PATH_INFO': '/simple'}
         start_response = Mock()
-        body = self.app.handle_request(env, start_response)
+        body = self.app(env, start_response)
         self.assertEqual(b''.join(body), b'<body><h1>Simple</h1></body>')
         start_response.assert_called_once_with('200 OK', [
             ('Content-Type', 'text/html'),
@@ -47,7 +47,7 @@ class ServerAppTestCase(TestCase):
     def test_missing_page(self):
         env = {'PATH_INFO': '/missing'}
         start_response = Mock()
-        body = self.app.handle_request(env, start_response)
+        body = self.app(env, start_response)
         self.assertEqual(b''.join(body), b'')
         start_response.assert_called_once_with('404 Not Found', [
             ('Content-Type', 'text/html'),
@@ -57,7 +57,7 @@ class ServerAppTestCase(TestCase):
     def test_static_content(self):
         env = {'PATH_INFO': '/robots.txt'}
         start_response = Mock()
-        body = self.app.handle_request(env, start_response)
+        body = self.app(env, start_response)
         self.assertEqual(b''.join(body), b'User-agent: *\nDisallow: /\n')
         start_response.assert_called_once_with('200 OK', [
             ('Content-Type', 'text/plain'),
@@ -67,7 +67,7 @@ class ServerAppTestCase(TestCase):
     def test_server_can_guess_the_mime_type_of_the_served_static_content(self):
         env = {'PATH_INFO': '/theme.css'}
         start_response = Mock()
-        body = self.app.handle_request(env, start_response)
+        body = self.app(env, start_response)
         self.assertEqual(b''.join(body), b'body { background-color: black; }\n')
         start_response.assert_called_once_with('200 OK', [
             ('Content-Type', 'text/css'),
@@ -78,7 +78,7 @@ class ServerAppTestCase(TestCase):
         app = App('tests/site_example/sub-without-index')
         env = {'PATH_INFO': '/'}
         start_response = Mock()
-        body = app.handle_request(env, start_response)
+        body = app(env, start_response)
         self.assertEqual(b''.join(body), b'')
         start_response.assert_called_once_with('404 Not Found', [
             ('Content-Type', 'text/html'),
@@ -89,7 +89,7 @@ class ServerAppTestCase(TestCase):
         app = App('tests/site_example/sub-with-404')
         env = {'PATH_INFO': '/missing'}
         start_response = Mock()
-        body = app.handle_request(env, start_response)
+        body = app(env, start_response)
         self.assertEqual(b''.join(body), b'<body><h1>404 Not Found</h1></body>')
         start_response.assert_called_once_with('404 Not Found', [
             ('Content-Type', 'text/html'),
@@ -100,7 +100,7 @@ class ServerAppTestCase(TestCase):
         app = App('tests/site_example/sub-with-404')
         env = {'PATH_INFO': '/missing.txt'}
         start_response = Mock()
-        body = app.handle_request(env, start_response)
+        body = app(env, start_response)
         self.assertEqual(b''.join(body), b'')
         start_response.assert_called_once_with('404 Not Found', [
             ('Content-Type', 'text/html'),
