@@ -44,6 +44,16 @@ class ServerAppTestCase(TestCase):
             ('Content-Length', '28'),
         ])
 
+    def test_get_index_page(self):
+        env = {'PATH_INFO': '/'}
+        start_response = Mock()
+        body = self.app(env, start_response)
+        self.assertEqual(b''.join(body), b'<body><h1>Index</h1></body>')
+        start_response.assert_called_once_with('200 OK', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '27'),
+        ])
+
     def test_missing_page(self):
         env = {'PATH_INFO': '/missing'}
         start_response = Mock()

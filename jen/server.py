@@ -53,7 +53,9 @@ class App(object):
         return self.response(start_response, '404 Not Found')
 
     def try_template(self, start_response, path):
-        if not path.endswith('/') and self.template_renderer.has_page(path):
+        if path != '/' and path.endswith('/'):
+            return
+        if self.template_renderer.has_page(path):
             body = self.template_renderer.render_page(path)
             return self.response(start_response, '200 OK', 'text/html', body)
 
