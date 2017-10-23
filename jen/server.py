@@ -53,12 +53,12 @@ class App(object):
         return self.response(start_response, '404 Not Found')
 
     def try_template(self, start_response, path):
-        if self.template_renderer.has_page(path):
+        if not path.endswith('/') and self.template_renderer.has_page(path):
             body = self.template_renderer.render_page(path)
             return self.response(start_response, '200 OK', 'text/html', body)
 
     def try_static(self, start_response, path):
-        full_path = os.path.join(self.directory, path.strip('/'))
+        full_path = os.path.join(self.directory, path.lstrip('/'))
         if not full_path.endswith('.html') and os.path.exists(full_path) and not os.path.isdir(full_path):
             with open(full_path, 'rb') as f:
                 body = f.read()

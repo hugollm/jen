@@ -106,3 +106,25 @@ class ServerAppTestCase(TestCase):
             ('Content-Type', 'text/html'),
             ('Content-Length', '0'),
         ])
+
+    def test_returns_404_if_path_ends_on_slash(self):
+        app = App('tests/site_example')
+        env = {'PATH_INFO': '/simple/'}
+        start_response = Mock()
+        body = app(env, start_response)
+        self.assertEqual(b''.join(body), b'')
+        start_response.assert_called_once_with('404 Not Found', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '0'),
+        ])
+
+    def test_returns_404_if_static_path_ends_on_slash(self):
+        app = App('tests/site_example')
+        env = {'PATH_INFO': '/robots.txt/'}
+        start_response = Mock()
+        body = app(env, start_response)
+        self.assertEqual(b''.join(body), b'')
+        start_response.assert_called_once_with('404 Not Found', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '0'),
+        ])
