@@ -49,6 +49,9 @@ class App(object):
             with open(full_path, 'rb') as f:
                 body = f.read()
             return self.response(start_response, '200 OK', 'application/octet-stream', body)
+        if '.' not in path and self.template_renderer.has_page('404'):
+            body = self.template_renderer.render_page('404')
+            return self.response(start_response, '404 Not Found', 'text/html', body)
         return self.response(start_response, '404 Not Found')
 
     def response(self, start_response, status, mime='text/html', data=''):

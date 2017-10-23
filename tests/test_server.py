@@ -38,3 +38,25 @@ class ServerAppTestCase(TestCase):
             ('Content-Type', 'application/octet-stream'),
             ('Content-Length', '26'),
         ])
+
+    def test_404_page(self):
+        app = App('tests/site_example/sub-with-404')
+        env = {'PATH_INFO': '/missing'}
+        start_response = Mock()
+        body = app.handle_request(env, start_response)
+        self.assertEqual(b''.join(body), b'<body><h1>404 Not Found</h1></body>')
+        start_response.assert_called_once_with('404 Not Found', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '35'),
+        ])
+
+    def test_404_page_does_not_render_if_theres_dot_on_path(self):
+        app = App('tests/site_example/sub-with-404')
+        env = {'PATH_INFO': '/missing.txt'}
+        start_response = Mock()
+        body = app.handle_request(env, start_response)
+        self.assertEqual(b''.join(body), b'')
+        start_response.assert_called_once_with('404 Not Found', [
+            ('Content-Type', 'text/html'),
+            ('Content-Length', '0'),
+        ])
