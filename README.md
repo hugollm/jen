@@ -1,6 +1,6 @@
 # Jen
 
-Static site generator and prototyping tool based on Jinja2.
+Static site generator and prototyping tool based on [Jinja2](http://jinja.pocoo.org/docs/2.9/).
 
 
 ## Install
@@ -12,7 +12,7 @@ Jen is available in the Python Package Index:
 
 ## Overview
 
-Create some jinja templates in a directory, alongside the desired static content.
+Create some Jinja templates in a directory, alongside the desired static content.
 Example:
 
 ```
@@ -29,7 +29,7 @@ Run the development server while you create your content:
 
     jen run site
 
-The content will be accessible in your browser on `localhost:8000`. Try acessing your content with pretty urls:
+The content will be accessible in your browser on `localhost:8000`. Try some pretty urls:
 
     /
     /about
