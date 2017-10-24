@@ -8,5 +8,10 @@ app = CliApp()
 app.command(Run())
 app.command(Build())
 
-if __name__ == '__main__':
+
+def run():
     app.call()
+
+
+if __name__ == '__main__':
+    run()
