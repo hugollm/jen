@@ -2,6 +2,10 @@
 
 Static site generator and prototyping tool based on [Jinja2](http://jinja.pocoo.org/docs/2.9/).
 
+[![PyPI version](https://badge.fury.io/py/jen.svg)](https://badge.fury.io/py/jen)
+[![Build Status](https://travis-ci.org/hugollm/jen.svg?branch=master)](https://travis-ci.org/hugollm/jen)
+[![Coverage Status](https://coveralls.io/repos/github/hugollm/jen/badge.svg?branch=master)](https://coveralls.io/github/hugollm/jen?branch=master)
+
 
 ## Install
 
