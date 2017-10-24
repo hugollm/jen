@@ -28,6 +28,12 @@ class ServerCommandTestCase(CliTestCase):
                 self.command.run('tests/site_example/index.html')
         self.assert_output(bf.out, 'ERROR: source must be a valid directory')
 
+    def test_command_runs_gunicorn_app(self):
+        with patch('jen.server.GunicornApp.run') as mock:
+            with OutputBuffer():
+                self.command.run('tests/site_example')
+        mock.assert_called_once_with()
+
 
 class ServerAppTestCase(TestCase):
 
