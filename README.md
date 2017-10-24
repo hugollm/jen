@@ -24,6 +24,7 @@ site/
     _base.html
     index.html
     about.html
+    404.html
     robots.txt
     css/
         theme.css
@@ -44,6 +45,7 @@ A few points to notice:
 * HTML templates are accessed without the `.html` extension.
 * `/` maps to `index.html`. Any sub-directory with an `index.html` can also be accessed like this.
 * `_base.html` is accessible in the Jinja environment but will not be exposed because it starts with underscore `_`.
+* If you access a missing page, the server will render `404.html` for you.
 
 After you're done, build your static site with:
 
