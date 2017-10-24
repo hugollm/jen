@@ -1,6 +1,6 @@
 # Jen
 
-Static site generator and prototyping tool based on [Jinja2](http://jinja.pocoo.org/docs/2.9/).
+Static site generator and prototyping tool based on [Jinja2](http://jinja.pocoo.org).
 
 [![PyPI version](https://badge.fury.io/py/jen.svg)](https://badge.fury.io/py/jen)
 [![Build Status](https://travis-ci.org/hugollm/jen.svg?branch=master)](https://travis-ci.org/hugollm/jen)
