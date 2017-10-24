@@ -7,10 +7,10 @@ from .cli import CliCommand
 from .template_renderer import TemplateRenderer
 
 
-class Server(CliCommand):
+class Run(CliCommand):
 
-    name = 'server'
-    usage = 'jen server <source>'
+    name = 'run'
+    usage = 'jen run <source>'
     description = 'Serves content from specified <source> directory'
 
     def run(self, source):

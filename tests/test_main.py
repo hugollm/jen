@@ -9,5 +9,5 @@ class MainTestCase(CliTestCase):
     def test_main_app_has_all_commands(self):
         with OutputBuffer() as bf:
             app.call()
-        self.assertIn('jen server', bf.out)
+        self.assertIn('jen run', bf.out)
         self.assertIn('jen build', bf.out)

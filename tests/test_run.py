@@ -1,16 +1,16 @@
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
-from jen.server import Server, App
+from jen.run import Run, App
 from .test_cli import CliTestCase
 from .output_buffer import OutputBuffer
 
 
-class ServerCommandTestCase(CliTestCase):
+class RunCommandTestCase(CliTestCase):
 
     def setUp(self):
-        self.command = Server()
-        self.patch = patch('jen.server.GunicornApp.run')
+        self.command = Run()
+        self.patch = patch('jen.run.GunicornApp.run')
         self.patch.start()
 
     def tearDown(self):
@@ -29,13 +29,13 @@ class ServerCommandTestCase(CliTestCase):
         self.assert_output(bf.out, 'ERROR: source must be a valid directory')
 
     def test_command_runs_gunicorn_app(self):
-        with patch('jen.server.GunicornApp.run') as mock:
+        with patch('jen.run.GunicornApp.run') as mock:
             with OutputBuffer():
                 self.command.run('tests/site_example')
         mock.assert_called_once_with()
 
 
-class ServerAppTestCase(TestCase):
+class RunAppTestCase(TestCase):
 
     def setUp(self):
         self.app = App('tests/site_example')
