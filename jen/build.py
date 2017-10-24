@@ -35,6 +35,7 @@ class Build(CliCommand):
         target_dir = os.path.dirname(target_path)
         self.ensure_directory(target_dir)
         copyfile(path, target_path)
+        self.echo('OK:', relative_path)
 
     def render_template(self, source, target, path):
         relative_path = self.relative_path(source, path)
@@ -45,6 +46,7 @@ class Build(CliCommand):
         body = self.template_renderer.render_page(relative_path_without_extension)
         with open(target_path, 'w') as f:
             f.write(body)
+        self.echo('OK:', relative_path)
 
     def get_files_from_directory(self, directory):
         files = []

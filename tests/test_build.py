@@ -60,3 +60,13 @@ class BuildTestCase(CliTestCase):
     def test_target_does_not_contain_html_files_starting_with_underscore(self):
         self.run_command()
         self.assertFalse(os.path.exists(self.target + '/_base.html'))
+
+    def test_command_outputs_generated_file_names(self):
+        bf = self.run_command()
+        self.assertIn('OK: index.html', bf.out)
+        self.assertIn('OK: simple.html', bf.out)
+        self.assertIn('OK: sub-with-404/404.html', bf.out)
+        self.assertIn('OK: sub-with-index/index.html', bf.out)
+        self.assertIn('OK: sub-without-index/simple.html', bf.out)
+        self.assertIn('OK: robots.txt', bf.out)
+        self.assertIn('OK: theme.css', bf.out)
